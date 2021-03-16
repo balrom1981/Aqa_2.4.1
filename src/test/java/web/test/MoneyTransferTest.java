@@ -3,9 +3,7 @@ package web.test;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import web.data.DataHelper;
-import web.page.LoginPageV1;
 import web.page.LoginPageV2;
-import web.page.LoginPageV3;
 
 import static com.codeborne.selenide.Selenide.open;
 
