@@ -1,24 +1,25 @@
 package web.page;
 
 import com.codeborne.selenide.SelenideElement;
+import web.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class ReplenishmentPage {
-    private SelenideElement heading = $("[data-test-id=dashboard] h1");
-    private SelenideElement amount = $("[data-test-id='amount']");
+public class MoneyTransferPage {
+    //    private SelenideElement amount = $("[data-test-id='amount' input]");
+    private SelenideElement amount = $("[type='text']");
     private SelenideElement from = $("[data-test-id='from'] input");
     private SelenideElement buttonTransfer = $("[data-test-id='action-transfer']");
     private SelenideElement buttonCancel = $("[data-test-id='action-cancel']");
 
-    public ReplenishmentPage() {
-        heading.shouldBe(visible);
+    public MoneyTransferPage() {
+
     }
 
-    public DashboardPage transferMoney (String amountTransfer, String fromBill) {
-        amount.setValue(amountTransfer);
-        from.setValue(fromBill);
+    public DashboardPage transferMoney(int amountTransfer, DataHelper.Card card) {
+        amount.setValue(String.valueOf(amountTransfer));
+        from.setValue(card.getNumber());
         buttonTransfer.click();
         return new DashboardPage();
     }

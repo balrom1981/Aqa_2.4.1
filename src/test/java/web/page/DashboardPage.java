@@ -1,33 +1,50 @@
 package web.page;
 
+import com.codeborne.selenide.Condition;
 import lombok.val;
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
-import org.openqa.selenium.By;
+
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
 public class DashboardPage {
-    private SelenideElement heading = $("[data-test-id=dashboard]");
-    private SelenideElement buttonFirstBill = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0'] button");
-    private SelenideElement buttonSecondBill = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d'] button");
     private ElementsCollection cards = $$(".list__item");
     private final String balanceStart = "баланс: ";
     private final String balanceFinish = " р.";
+    private SelenideElement heading = $("[data-test-id=dashboard]");
+
+    private SelenideElement buttonFirstBill = $("[data-test-id='92df3f1c-a033-48e6-8390-206f6b1f56c0'] button");
+    private SelenideElement buttonSecondBill = $("[data-test-id='0f3f5c2a-249e-4c3d-8287-09f7a039391d'] button");
 
     public DashboardPage() {
         heading.shouldBe(visible);
     }
 
-    public int getCardBalance(String id) {
-//        for (SelenideElement elements : cards) {
-//            element(id).getText();
-//            return
-//        }
+    public MoneyTransferPage firstBill() {
+        buttonFirstBill.click();
+        return new MoneyTransferPage();
+    }
+
+    public MoneyTransferPage secondBill() {
+        buttonFirstBill.click();
+        return new MoneyTransferPage();
+    }
+
+
+//    public int getCardBalance(String id) {
+//        val text = cards.findBy(Condition.text("id")).text();
+//        return extractBalance(text);
+//    }
+
+    public int getFirstCardBalance() {
         val text = cards.first().text();
-        // TODO: перебрать все карты и найти по атрибуту data-test-id
+        return extractBalance(text);
+    }
+
+    public int getSecondCardBalance() {
+        val text = cards.last().text();
         return extractBalance(text);
     }
 
@@ -38,14 +55,4 @@ public class DashboardPage {
         return Integer.parseInt(value);
     }
 
-
-    public ReplenishmentPage firstBill() {
-        buttonFirstBill.click();
-        return new ReplenishmentPage();
-    }
-
-    public ReplenishmentPage secondBill() {
-        buttonFirstBill.click();
-        return new ReplenishmentPage();
-    }
 }

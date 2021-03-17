@@ -6,37 +6,27 @@ import web.data.DataHelper;
 import web.page.LoginPageV2;
 
 import static com.codeborne.selenide.Selenide.open;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MoneyTransferTest {
-    @Test
-    void shouldTransferMoneyBetweenOwnCardsV1() {
-      open("http://localhost:9999");
-      val loginPage = new LoginPageV1();
-//    val loginPage = open("http://localhost:9999", LoginPageV1.class);
-      val authInfo = DataHelper.getAuthInfo();
-      val verificationPage = loginPage.validLogin(authInfo);
-      val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-      verificationPage.validVerify(verificationCode);
-    }
 
   @Test
   void shouldTransferMoneyBetweenOwnCardsV2() {
     open("http://localhost:9999");
-    val loginPage = new LoginPageV2();
-//    val loginPage = open("http://localhost:9999", LoginPageV2.class);
+    val loginPage = open("http://localhost:9999", LoginPageV2.class);
     val authInfo = DataHelper.getAuthInfo();
     val verificationPage = loginPage.validLogin(authInfo);
     val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-    verificationPage.validVerify(verificationCode);
+    val dashboardPage = verificationPage.validVerify(verificationCode);
+    val balanceFirstBillBeforeTransfer = dashboardPage.getFirstCardBalance();
+    val balanceSecondBillBeforeTransfer = dashboardPage.getSecondCardBalance();
+    val moneyTransferPage = dashboardPage.firstBill();
+    int amount = 1000;
+    moneyTransferPage.transferMoney(amount, DataHelper.Card.getCardSecond());
+    val balanceFirstBillAfterTransfer = dashboardPage.getFirstCardBalance();
+    val balanceSecondBillAfterTransfer = dashboardPage.getSecondCardBalance();
+    assertEquals((balanceFirstBillBeforeTransfer-amount),balanceFirstBillAfterTransfer);
   }
 
-  @Test
-  void shouldTransferMoneyBetweenOwnCardsV3() {
-    val loginPage = open("http://localhost:9999", LoginPageV3.class);
-    val authInfo = DataHelper.getAuthInfo();
-    val verificationPage = loginPage.validLogin(authInfo);
-    val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
-    verificationPage.validVerify(verificationCode);
-  }
 }
 
