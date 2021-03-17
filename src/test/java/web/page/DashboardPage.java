@@ -32,12 +32,6 @@ public class DashboardPage {
         return new MoneyTransferPage();
     }
 
-
-//    public int getCardBalance(String id) {
-//        val text = cards.findBy(Condition.text("id")).text();
-//        return extractBalance(text);
-//    }
-
     public int getFirstCardBalance() {
         val text = cards.first().text();
         return extractBalance(text);
