@@ -28,7 +28,7 @@ public class DashboardPage {
     }
 
     public MoneyTransferPage secondBill() {
-        buttonFirstBill.click();
+        buttonSecondBill.click();
         return new MoneyTransferPage();
     }
 
