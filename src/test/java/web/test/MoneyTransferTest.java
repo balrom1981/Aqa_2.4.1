@@ -1,10 +1,13 @@
 package web.test;
 
+import com.codeborne.selenide.Condition;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import web.data.DataHelper;
 import web.page.LoginPageV2;
 
+import static com.codeborne.selenide.Selectors.withText;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -53,15 +56,10 @@ class MoneyTransferTest {
         val verificationPage = loginPage.validLogin(authInfo);
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         val dashboardPage = verificationPage.validVerify(verificationCode);
-        val balanceFirstBillBeforeTransfer = dashboardPage.getFirstCardBalance();
-        val balanceSecondBillBeforeTransfer = dashboardPage.getSecondCardBalance();
         val moneyTransferPage = dashboardPage.firstBill();
         int amount = 100000;
         moneyTransferPage.transferMoney(amount, DataHelper.Card.getCardSecond());
-        val balanceFirstBillAfterTransfer = dashboardPage.getFirstCardBalance();
-        val balanceSecondBillAfterTransfer = dashboardPage.getSecondCardBalance();
-        assertEquals((balanceFirstBillBeforeTransfer + amount), balanceFirstBillAfterTransfer);
-        assertEquals((balanceSecondBillBeforeTransfer - amount), balanceSecondBillAfterTransfer);
+        moneyTransferPage.errorMassage();
     }
 }
 

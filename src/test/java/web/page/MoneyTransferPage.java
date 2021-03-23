@@ -1,9 +1,11 @@
 package web.page;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import web.data.DataHelper;
 
 
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 
 public class MoneyTransferPage {
@@ -21,5 +23,10 @@ public class MoneyTransferPage {
         from.setValue(card.getNumber());
         buttonTransfer.click();
         return new DashboardPage();
+    }
+
+    public void errorMassage(){
+        $(withText("Ошибка!!! Сумма перевода больше суммы баланса. " +
+                "Введите сумму перевода меньшую либо равную сумме баланса")).shouldBe(Condition.visible);
     }
 }
