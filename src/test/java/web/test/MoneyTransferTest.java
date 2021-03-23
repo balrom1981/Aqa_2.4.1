@@ -1,13 +1,12 @@
 package web.test;
 
-import com.codeborne.selenide.Condition;
+
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import web.data.DataHelper;
 import web.page.LoginPageV2;
 
-import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.$;
+
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
